@@ -10,15 +10,11 @@ COPY WebContent /usr/local/tomcat/webapps/ROOT
 COPY servlet-api.jar /usr/local/tomcat/lib/
 COPY WebContent/WEB-INF/lib/*.jar /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
 
-# Create directory for the database
+# Create directory for the database (kept for local/fallback use)
 RUN mkdir -p /usr/local/tomcat/database && chmod 777 /usr/local/tomcat/database
 
-# Set environment variable for the database path
-ENV SQLITE_DB_PATH=/usr/local/tomcat/database/expense_db.db
-
-# VOLUME for persistent storage
-VOLUME /usr/local/tomcat/database
-
+# Expose port (Render ignores EXPOSE, but good for documentation)
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+# Script to set the port in server.xml dynamically and start Tomcat
+CMD ["bash", "-c", "sed -i 's/port=\"8080\"/port=\"'\"${PORT:-8080}\"'\"/' /usr/local/tomcat/conf/server.xml && catalina.sh run"]
