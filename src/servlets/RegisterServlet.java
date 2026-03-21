@@ -17,23 +17,20 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        try {
-
-            Connection con = DBConnection.getConnection();
-
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO users(name,email,password) VALUES (?,?,?)");
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "INSERT INTO users(name,email,password) VALUES (?,?,?)")) {
 
             ps.setString(1, name);
             ps.setString(2, email);
             ps.setString(3, password);
 
             ps.executeUpdate();
-
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp?msg=registered");
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("register.jsp?error=failed");
         }
     }
 }

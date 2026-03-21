@@ -23,17 +23,14 @@ public class AddExpenseServlet extends HttpServlet {
         }
 
         int userId = (int) session.getAttribute("userId");
-
         String title = request.getParameter("title");
         String amount = request.getParameter("amount");
         String category = request.getParameter("category");
-        String date = request.getParameter("date");
+        String date = request.getParameter("expense_date");
 
-        try {
-            Connection con = DBConnection.getConnection();
-
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO expenses(user_id,title,amount,category,expense_date) VALUES (?,?,?,?,?)");
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "INSERT INTO expenses(user_id,title,amount,category,expense_date) VALUES (?,?,?,?,?)")) {
 
             ps.setInt(1, userId);
             ps.setString(2, title);
@@ -42,11 +39,12 @@ public class AddExpenseServlet extends HttpServlet {
             ps.setString(5, date);
 
             ps.executeUpdate();
-
-            response.sendRedirect("dashboard.jsp");
+            
+            response.sendRedirect("viewExpenses?successMsg=Expense%20added%20successfully");
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("addExpense.jsp?error=failed");
         }
     }
 }

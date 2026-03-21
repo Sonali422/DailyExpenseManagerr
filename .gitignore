@@ -1,0 +1,22 @@
+# Compiled class files
+bin/
+*.class
+
+# Server and Temp files
+apache-tomcat-*/
+sqlite_temp/
+logs/
+work/
+temp/
+
+# Database
+*.db
+*.db-journal
+
+# IDE and System files
+.settings/
+.project
+.classpath
+.DS_Store
+.idea/
+*.iml

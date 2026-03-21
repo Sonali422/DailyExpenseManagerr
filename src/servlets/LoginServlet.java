@@ -17,32 +17,26 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        try {
-            Connection con = DBConnection.getConnection();
-
-            PreparedStatement ps = con.prepareStatement(
-                    "SELECT id FROM users WHERE email=? AND password=?");
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "SELECT id, name FROM users WHERE email=? AND password=?")) {
 
             ps.setString(1, email);
             ps.setString(2, password);
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-
-                HttpSession session = request.getSession();
-                session.setAttribute("userId", rs.getInt("id"));
-
-                response.sendRedirect("dashboard.jsp");
-
-            } else {
-
-                response.sendRedirect("index.jsp?error=Invalid");
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("userId", rs.getInt("id"));
+                    session.setAttribute("userName", rs.getString("name"));
+                    response.sendRedirect("dashboard.jsp");
+                } else {
+                    response.sendRedirect("index.jsp?error=Invalid");
+                }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("index.jsp?error=Server");
         }
     }
 }
