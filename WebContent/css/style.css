@@ -53,12 +53,17 @@ body::after {
 header { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 1rem 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 50; }
 nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
 nav .brand h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
-nav ul { list-style: none; display: flex; gap: 1.5rem; }
-nav a { color: #cbd5e1; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+nav ul { list-style: none; display: flex; gap: 1.5rem; align-items: center; }
+.menu-toggle { display: none; }
+nav a { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; color: #cbd5e1; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 0.5rem 1rem; border-radius: 0.5rem;  font-size: 0.9rem; }
+nav a i { font-size: 1.1rem; }
 nav a:hover { color: #fff; background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
 main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; width: 100%; box-sizing: border-box; }
 .auth-container, .dashboard-container { width: 100%; max-width: 480px; margin: 0 auto; }
 .dashboard-container { max-width: 1000px; }
+.page-illustration { text-align: center; margin-bottom: 2rem; }
+.page-illustration img { max-height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); transition: transform 0.3s ease; }
+.page-illustration img:hover { transform: scale(1.05); }
 .glass-card { background: rgba(30, 41, 59, 0.45); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 2rem; padding: 3rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1); width: 100%; position: relative; overflow: hidden; }
 .glass-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
 .glass-card:hover { transform: translateY(-8px) scale(1.005); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.7); }
@@ -66,7 +71,10 @@ main { flex: 1; display: flex; justify-content: center; align-items: center; pad
 .glass-card h2 { text-align: center; font-size: 2rem; margin-bottom: 2rem; font-weight: 700; }
 .form-group { margin-bottom: 1.5rem; }
 .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #94a3b8; font-weight: 500; }
+.input-with-icon { position: relative; display: flex; align-items: center; width: 100%; }
+.input-with-icon i { position: absolute; left: 1rem; color: #94a3b8; font-size: 1.1rem; pointer-events: none; }
 input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], select { width: 100%; padding: 0.875rem 1.25rem; border-radius: 0.75rem; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 1rem; transition: all 0.3s ease; outline: none; box-sizing: border-box; }
+.input-with-icon input, .input-with-icon select { padding-left: 2.75rem !important; }
 input:focus, select:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2); background: rgba(15, 23, 42, 0.8); }
 select option { background-color: #1e293b; color: white; }
 input[type="submit"], .btn { width: 100%; padding: 1.1rem; border: none; border-radius: 1rem; background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%); background-size: 200% auto; color: white; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.4s ease; text-align: center; display: inline-block; text-decoration: none; box-sizing: border-box; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }

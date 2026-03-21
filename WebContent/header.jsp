@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-      .nav-active { border-bottom: 2px solid #60a5fa; border-radius: 0; padding-bottom: 0.25rem; }
+      .nav-active { color: #60a5fa !important; position: relative; }
+      .nav-active::after { content: ''; position: absolute; bottom: 0; left: 15%; width: 70%; height: 3px; background: #60a5fa; border-radius: 3px 3px 0 0; }
       .profile-icon { display: inline-flex; width: 2.5rem; height: 2.5rem; background: linear-gradient(135deg, #60a5fa, #a78bfa); border-radius: 50%; align-items: center; justify-content: center; font-weight: bold; color: white; margin-right: 0.5rem; }
       .user-greeting { display: flex; align-items: center; color: #fff; font-weight: 500; font-size: 1.1rem; }
     </style>

@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export JAVA_HOME="/Users/hemalathaguthurthi/.brew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+
 echo "Ensuring Java is available..."
 java -version || { echo "Java is not installed! Please install Java."; exit 1; }
 
