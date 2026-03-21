@@ -8,13 +8,34 @@ public class DBConnection {
     private static boolean initialized = false;
 
     public static Connection getConnection() throws Exception {
-        String dbUrl = System.getenv("DATABASE_URL");
         Connection conn;
-
-        if (dbUrl != null && dbUrl.startsWith("jdbc:postgresql:")) {
-            Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection(dbUrl);
+        
+        // Read DATABASE_URL — supports both jdbc:postgresql:// and raw postgresql:// (from Supabase)
+        String dbUrl = System.getenv("DATABASE_URL");
+        
+        if (dbUrl != null && !dbUrl.isEmpty()) {
+            // Convert raw postgresql:// to jdbc:postgresql:// if needed
+            if (dbUrl.startsWith("postgresql://")) {
+                dbUrl = "jdbc:" + dbUrl;
+            }
+            
+            if (dbUrl.startsWith("jdbc:postgresql:")) {
+                Class.forName("org.postgresql.Driver");
+                
+                // Support separate DB_USER / DB_PASSWORD env vars if provided
+                String dbUser = System.getenv("DB_USER");
+                String dbPassword = System.getenv("DB_PASSWORD");
+                
+                if (dbUser != null && dbPassword != null) {
+                    conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+                } else {
+                    conn = DriverManager.getConnection(dbUrl);
+                }
+            } else {
+                throw new Exception("Unsupported DATABASE_URL format: " + dbUrl);
+            }
         } else {
+            // Local SQLite fallback for development
             Class.forName("org.sqlite.JDBC");
             String dbPath = System.getenv("SQLITE_DB_PATH");
             if (dbPath == null) {
