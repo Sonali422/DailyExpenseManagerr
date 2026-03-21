@@ -8,14 +8,20 @@ public class DBConnection {
     private static boolean initialized = false;
 
     public static Connection getConnection() throws Exception {
-        Class.forName("org.sqlite.JDBC");
-        
-        String dbPath = System.getenv("SQLITE_DB_PATH");
-        if (dbPath == null) {
-            dbPath = "expense_db.db"; // Local dev default
+        String dbUrl = System.getenv("DATABASE_URL");
+        Connection conn;
+
+        if (dbUrl != null && dbUrl.startsWith("jdbc:postgresql:")) {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(dbUrl);
+        } else {
+            Class.forName("org.sqlite.JDBC");
+            String dbPath = System.getenv("SQLITE_DB_PATH");
+            if (dbPath == null) {
+                dbPath = "expense_db.db";
+            }
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
         }
-        
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
         
         if (!initialized) {
             initDatabase(conn);
